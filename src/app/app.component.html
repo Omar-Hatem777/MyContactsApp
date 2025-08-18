@@ -1,1 +1,46 @@
-<app-contacts></app-contacts>
+<div class="container py-5">
+  <!-- Header -->
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">
+      <i class="fa fa-address-book me-2"></i> {{ title }}
+    </h2>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="input-group w-50">
+      <span class="input-group-text">
+        <i class="fa fa-search"></i>
+      </span>
+      <input type="text" class="form-control" placeholder="Search contacts" />
+    </div>
+    <button class="btn btn-success" (click)="toggleAddContactForm()">
+      <i class="fa fa-user-plus me-2"></i> Add Contact
+    </button>
+  </div>
+
+  <!-- Contact Form -->
+  @if (showAddContactForm) {
+    <app-contact-form
+      [contactToEdit]="contactToEdit"
+      [isEditMode]="isEditMode"
+      (saveContact)="onSaveContact($event)"
+      (cancelForm)="cancelForm()">
+    </app-contact-form>
+  }
+
+  <!-- Contact List -->
+  <ul class="list-group">
+    @for (contact of contacts; track contact.id) {
+      <app-contact-item
+        [contact]="contact"
+        (editContact)="editContact($event)"
+        (deleteContact)="deleteContact($event)">
+      </app-contact-item>
+    } @empty {
+      <li class="list-group-item text-center">
+        <p class="mb-0">No contacts found.</p>
+      </li>
+    }
+  </ul>
+</div>
