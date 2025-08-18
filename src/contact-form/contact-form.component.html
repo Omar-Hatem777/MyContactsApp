@@ -1,0 +1,66 @@
+<div class="mb-4">
+  <form #contactForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="name" 
+        name="name"
+        placeholder="Enter name"
+        [(ngModel)]="contact.name"
+        required
+        minlength="2"
+        maxlength="20"
+        pattern="[a-zA-Z\s]+"
+        #name="ngModel" />
+      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
+        <small *ngIf="name.errors?.['required']">Name is required.</small>
+        <small *ngIf="name.errors?.['minlength']">Name must be at least 2 characters.</small>
+        <small *ngIf="name.errors?.['maxlength']">Name must be at most 20 characters.</small>
+        <small *ngIf="name.errors?.['pattern']">Name must contain only letters and spaces.</small>
+      </div>
+    </div>
+    
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input 
+        type="email" 
+        class="form-control" 
+        id="email" 
+        name="email"
+        placeholder="Enter email"
+        [(ngModel)]="contact.email"
+        required
+        email
+        #email="ngModel" />
+      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+        <small *ngIf="email.errors?.['required']">Email is required.</small>
+        <small *ngIf="email.errors?.['email']">Please enter a valid email address.</small>
+      </div>
+    </div>
+    
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone Number</label>
+      <input 
+        type="tel" 
+        class="form-control" 
+        id="phone" 
+        name="phone"
+        placeholder="Enter phone number"
+        [(ngModel)]="contact.phone"
+        required
+        pattern="^\d{8,15}$"
+        #phone="ngModel" />
+      <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger">
+        <small *ngIf="phone.errors?.['required']">Phone number is required.</small>
+        <small *ngIf="phone.errors?.['pattern']">Please enter a valid phone number (8-15 digits).</small>
+      </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary" [disabled]="contactForm.invalid">
+      {{ isEditMode ? 'Update Contact' : 'Save Contact' }}
+    </button>
+    <button type="button" class="btn btn-danger m-3" (click)="onCancel()">Cancel</button>
+  </form>
+</div>
